@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MATH MASTER EXAM - CLASS 7</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ min-height:100vh;
+ background: radial-gradient(circle at top, #4a0080 0%, #1a0033 60%, #0d001a 100%);
+ color:white;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+}
+header{
+ width:100%;
+ background: linear-gradient(180deg, rgba(255,0,255,0.2) 0%, rgba(0,0,0,0.4) 100%);
+ padding:15px; text-align:center;
+ border-bottom:2px solid #ff007f;
+ box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+}
+header h1{margin:0;color:#00ffff;font-size:26px; text-shadow: 0 0 8px #00ffff;}
+header p{margin:5px 0 0;color:#e0b0ff; font-size: 14px;}
+
+.container{width:100%; max-width:480px; margin:auto; padding:15px;}
+.card{
+ background: rgba(35, 10, 60, 0.85);
+ border: 2px solid #9933ff;
+ border-radius: 20px;
+ padding: 22px;
+ box-shadow: 0 0 25px rgba(153, 51, 255, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.05);
+ backdrop-filter: blur(5px);
+}
+.center{text-align:center}
+.hidden{display:none!important}
+
+button{
+ border:0;
+ border-radius:30px;
+ padding:14px 20px;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
+ font-family: inherit;
+ text-transform: uppercase;
+ letter-spacing: 1px;
+ transition: all 0.2s ease;
+ width:100%;
+ margin-top: 10px;
+}
+.start{
+ background: linear-gradient(180deg, #ff007f 0%, #cc0066 100%);
+ color:#fff;
+ border: 2px solid #ff66b2;
+ box-shadow: 0 0 12px rgba(255, 0, 127, 0.6);
+}
+.check-btn{
+ background: linear-gradient(180deg, #00d9ff 0%, #0088cc 100%);
+ color:#0d001a;
+ border: 2px solid #66e0ff;
+ box-shadow: 0 0 12px rgba(0, 217, 255, 0.6);
+}
+.next{
+ background: linear-gradient(180deg, #00ff66 0%, #00b347 100%);
+ color:#062d28;
+ border: 2px solid #66ffb2;
+ box-shadow: 0 0 12px rgba(0, 255, 102, 0.6);
+}
+.check-btn:disabled, .next:disabled{
+ background: #3d2a54 !important;
+ border-color: #594178 !important;
+ color: #8871a3 !important;
+ box-shadow: none !important;
+ cursor: not-allowed;
+}
+
+.start:hover, .check-btn:hover:not(:disabled), .next:hover:not(:disabled){
+ transform: translateY(-2px);
+ filter: brightness(1.1);
+}
+
+.info{
+ display:flex; gap:10px; margin-bottom:15px;
+}
+.info div{
+ flex:1; text-align:center;
+ background: linear-gradient(180deg, #3d0e66 0%, #250642 100%);
+ padding:10px 5px; border-radius:15px;
+ font-size:11px; color:#d8b3ff;
+ border: 1px solid #7722cc;
+ font-weight: bold;
+}
+.info b{display:block; color:#fff; font-size:18px; margin-top:4px}
+#timer{color:#ffe600; text-shadow: 0 0 5px #ffe600;}
+
+#question-badge {
+ background: linear-gradient(90deg, #e6007e 0%, #8000ff 100%);
+ padding: 6px 20px;
+ border-radius: 20px;
+ font-weight: bold;
+ font-size: 14px;
+ display: inline-block;
+ margin-bottom: 10px;
+ border: 1px solid #ff66cc;
+ box-shadow: 0 0 10px rgba(230, 0, 126, 0.5);
+}
+
+#question{
+ font-size: 22px;
+ font-weight: bold;
+ line-height: 1.4;
+ margin: 20px 0;
+ min-height: 70px;
+ color: #ffffff;
+ text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ text-align: center;
+}
+
+.option{
+ display:flex; align-items:center; gap:15px;
+ background: linear-gradient(180deg, #2b0847 0%, #18032b 100%);
+ border: 2px solid #00d9ff;
+ padding: 12px 20px;
+ border-radius: 40px;
+ margin: 12px 0;
+ cursor: pointer;
+ font-size: 18px;
+ font-weight: bold;
+ color: #fff;
+ transition: all 0.2s ease;
+ box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+ position: relative;
+ overflow: hidden;
+ clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+}
+.option:hover {
+ border-color: #ffffff;
+ box-shadow: 0 0 15px rgba(0, 217, 255, 0.6);
+ background: linear-gradient(180deg, #3d0c63 0%, #250542 100%);
+}
+.option.selected{
+ border-color: #00ff66 !important;
+ background: linear-gradient(180deg, #00b347 0%, #006629 100%) !important;
+ box-shadow: 0 0 18px rgba(0, 255, 102, 0.8) !important;
+}
+.option.correct-reveal{
+ border-color: #00ff66 !important;
+ background: linear-gradient(180deg, #00b347 0%, #006629 100%) !important;
+}
+.option.wrong-reveal{
+ border-color: #ff3366 !important;
+ background: linear-gradient(180deg, #b3002d 0%, #66001a 100%) !important;
+}
+.option input{ display: none; }
+
+.option-prefix {
+ font-size: 20px;
+ color: #ffffff;
+ width: 30px;
+ border-right: 1px solid rgba(255, 255, 255, 0.2);
+ padding-right: 10px;
+ text-align: right;
+}
+.option-text {
+ flex-grow: 1;
+ text-align: center;
+ padding-right: 30px;
+}
+
+#progressbar{
+ height:10px; background:#23053d;
+ border-radius:20px; overflow:hidden; margin:15px 0;
+ border: 1px solid #661a99;
+}
+#progressfill{
+ height:100%; width:0;
+ background: linear-gradient(90deg, #00d9ff, #00ff66);
+ box-shadow: 0 0 10px #00ff66;
+ transition: width 0.3s ease;
+}
+.small{color:#d4b3ff; font-size:14px; line-height:1.6}
+.result-item{
+ background:#2a0845; padding:14px;
+ margin:12px 0; border-radius:12px;
+ text-align:left; line-height:1.6;
+ border: 1px solid #661a99;
+}
+.correct-text{color:#00ff66; font-weight: bold;}
+.wrong-text{color:#ff3366; font-weight: bold;}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🧮 MATH MASTER</h1>
+<p>CLASS 7 EXAM • CHECK & NEXT MODE</p>
+</header>
+
+<div class="container">
+
+<div class="card center" id="home">
+<h2 style="color:#00ffff; text-shadow:0 0 10px #00ffff;">Class 7 Mathematics Quiz</h2>
+<p class="small">
+25 Random Questions • 20 Minutes<br>
+Use <b>CHECK ANSWER</b> to verify and <b>NEXT QUESTION</b> to proceed!
+</p>
+<button class="start" onclick="startTest()">START NEW TEST</button>
+</div>
+
+<div class="card hidden" id="exam">
+<div class="info">
+<div>TIME LEFT<b id="timer">20:00</b></div>
+<div>QUESTION<b id="number">1/25</b></div>
+<div>SCORE<b id="liveScore">0</b></div>
+</div>
+
+<div id="progressbar"><div id="progressfill"></div></div>
+
+<div class="center">
+ <span id="question-badge">Question 1/25</span>
+</div>
+
+<div id="question"></div>
+<div id="options"></div>
+
+<p class="small center" id="selectedText">Select an option.</p>
+
+<!-- Both Check and Next buttons placed one below another -->
+<button class="check-btn" id="checkBtn" onclick="checkAnswer()" disabled>CHECK ANSWER</button>
+<button class="next" id="nextBtn" onclick="nextQuestion()" disabled>NEXT QUESTION →</button>
+</div>
+
+<div class="card hidden center" id="result">
+<h2 style="color:#ffe600; text-shadow:0 0 10px #ffe600;">🏆 TEST RESULT</h2>
+<h1 id="marks" style="font-size:42px;color:#00ffff; text-shadow:0 0 12px #00ffff;">0/100</h1>
+<h3 id="percentage" style="color:#d4b3ff;"></h3>
+<p id="summary" class="small"></p>
+<hr style="border-color:#661a99">
+<h3 style="color:#ff3366;">❌ Incorrect Answers</h3>
+<div id="mistakes"></div>
+<h3 style="color:#00ff66;">✅ Correct Answers</h3>
+<div id="correctList"></div>
+<button class="start" onclick="location.reload()" style="margin-top:15px;">START NEW TEST</button>
+</div>
+
+</div>
+
+<script>
+const bank = [
+ ["Evaluate: (-30) ÷ 6", ["-5", "5", "-6", "6"], 0, "Integers"],
+ ["What is the product of (-4) × (-5) × (-2)?", ["40", "-40", "20", "-20"], 1, "Integers"],
+ ["Simplify: 2 - 3/5", ["2/5", "7/5", "8/5", "1/5"], 1, "Fractions and Decimals"],
+ ["Find the value of: 2.5 × 0.3", ["0.75", "7.5", "0.075", "75"], 0, "Fractions and Decimals"],
+ ["What is 3.5 kg in grams?", ["35 g", "350 g", "3500 g", "35000 g"], 2, "Fractions and Decimals"],
+ ["What is 20% of 400?", ["60", "70", "80", "90"], 2, "Percentage"],
+ ["Express 3/4 as a percent.", ["75%", "50%", "25%", "60%"], 0, "Percentage"],
+ ["If 50% of a number is 30, find the number.", ["45", "50", "60", "75"], 2, "Percentage"],
+ ["A toy bought for ₹150 is sold for ₹180. Find the profit percent.", ["15%", "20%", "25%", "30%"], 1, "Profit and Loss"],
+ ["Find the selling price if an article bought for ₹500 is sold at a loss of 10%.", ["₹400", "₹450", "₹475", "₹490"], 1, "Profit and Loss"],
+ ["A man bought a cycle for ₹1200 and sold it for ₹1500. Find his profit.", ["₹200", "₹300", "₹400", "₹250"], 1, "Profit and Loss"],
+ ["What is the probability of drawing a red card from a standard deck of 52 playing cards?", ["1/2", "1/4", "1/13", "1/26"], 0, "Probability"],
+ ["A coin is flipped once. What is the probability of getting a head?", ["0", "1", "1/2", "1/4"], 2, "Probability"],
+ ["When a die is thrown, what is the probability of getting a number greater than 4?", ["1/6", "1/3", "1/2", "2/3"], 1, "Probability"],
+ ["Solve for x: 2x + 5 = 15", ["3", "4", "5", "6"], 2, "Algebra"],
+ ["Write an equation for: 'The sum of numbers x and 4 is 9'", ["x - 4 = 9", "4x = 9", "x + 4 = 9", "x/4 = 9"], 2, "Algebra"],
+ ["If 3x - 2 = 7, find the value of x.", ["2", "3", "4", "5"], 1, "Algebra"],
+ ["Find the LCM of 12 and 16.", ["32", "48", "64", "24"], 1, "LCM and HCF"],
+ ["Find the HCF of 24 and 36.", ["6", "8", "12", "18"], 2, "LCM and HCF"],
+ ["The LCM of two numbers is 60 and their HCF is 5. If one number is 20, find the other.", ["10", "15", "25", "30"], 1, "LCM and HCF"],
+ ["The two interior opposite angles of a triangle are 50° and 60°. What is the measure of the exterior angle?", ["100°", "110°", "120°", "130°"], 1, "Triangles"],
+ ["Can a triangle have sides of lengths 2 cm, 3 cm, and 6 cm?", ["Yes", "No", "Only if right-angled", "Cannot be determined"], 1, "Triangles"],
+ ["In a right-angled triangle, the angles other than the right angle are:", ["Obtuse", "Complementary", "Supplementary", "Equal"], 1, "Triangles"],
+ ["The sum of all three angles of a triangle is:", ["90°", "180°", "270°", "360°"], 1, "Triangles"],
+ ["Divide 7.9 by 1000", ["0.0079", "0.079", "0.79", "0.00079"], 0, "Fractions and Decimals"]
+];
+
+let questions = [];
+let answers = [];
+let checkedStatus = [];
+let index = 0;
+let seconds = 1200;
+let clock = null;
+let finished = false;
+
+function startTest(){
+ document.getElementById("home").classList.add("hidden");
+ document.getElementById("exam").classList.remove("hidden");
+
+ questions = [...bank].sort(() => Math.random() - 0.5);
+
+ answers = Array(questions.length).fill(null);
+ checkedStatus = Array(questions.length).fill(false);
+ index = 0;
+ seconds = 1200;
+ finished = false;
+
+ showQuestion();
+ updateTimer();
+ 
+ if(clock) clearInterval(clock);
+ clock = setInterval(()=>{
+  seconds--;
+  updateTimer();
+  if(seconds <= 0){
+   finishTest(true);
+  }
+ }, 1000);
+}
+
+function updateTimer(){
+ let m = Math.floor(seconds / 60);
+ let s = seconds % 60;
+ document.getElementById("timer").textContent =
+ String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
+}
+
+function showQuestion(){
+ let q = questions[index];
+ let totalQ = questions.length;
+ document.getElementById("number").textContent = (index + 1) + "/" + totalQ;
+ document.getElementById("question-badge").textContent = "Question " + (index + 1) + "/" + totalQ + " (" + q[3] + ")";
+ document.getElementById("question").textContent = q[0];
+ document.getElementById("progressfill").style.width =
+ ((index + 1) / totalQ * 100) + "%";
+
+ let box = document.getElementById("options");
+ box.innerHTML = "";
+
+ q[1].forEach((option, i)=>{
+  let label = document.createElement("label");
+  label.className = "option";
+  if(answers[index] === i) label.classList.add("selected");
+
+  let radio = document.createElement("input");
+  radio.type = "radio";
+  radio.name = "answer";
+  radio.value = i;
+  radio.checked = answers[index] === i;
+
+  if(checkedStatus[index]){
+   radio.disabled = true;
+   if(i === q[2]) label.classList.add("correct-reveal");
+   else if(answers[index] === i) label.classList.add("wrong-reveal");
+  } else {
+   radio.onchange = ()=>{
+    answers[index] = i;
+    document.querySelectorAll('.option').forEach(l => l.classList.remove('selected'));
+    label.classList.add('selected');
+
+    document.getElementById("checkBtn").disabled = false;
+    document.getElementById("selectedText").textContent =
+    "Option " + String.fromCharCode(65 + i) + " selected.";
+   };
+  }
+
+  let prefix = document.createElement("span");
+  prefix.className = "option-prefix";
+  prefix.textContent = String.fromCharCode(65 + i) + ":";
+
+  let text = document.createElement("span");
+  text.className = "option-text";
+  text.textContent = option;
+
+  label.appendChild(radio);
+  label.appendChild(prefix);
+  label.appendChild(text);
+  box.appendChild(label);
+ });
+
+ let checkBtn = document.getElementById("checkBtn");
+ let nextBtn = document.getElementById("nextBtn");
+
+ // Next button hamesha enabled rahega taaki user bina check kiye bhi aage ja sake
+ nextBtn.disabled = false;
+ nextBtn.textContent = index === (totalQ - 1) ? "SUBMIT TEST" : "NEXT QUESTION →";
+
+ if(checkedStatus[index]){
+  checkBtn.disabled = true;
+  checkBtn.style.opacity = "0.6";
+  document.getElementById("selectedText").textContent = answers[index] === q[2] ? "✅ Correct Answer!" : "❌ Incorrect Answer!";
+ } else {
+  checkBtn.disabled = answers[index] === null;
+  checkBtn.style.opacity = "1";
+  document.getElementById("selectedText").textContent = answers[index] === null ? "Select an option." : "Option " + String.fromCharCode(65 + answers[index]) + " selected";
+ }
+
+ document.getElementById("liveScore").textContent = calculateScore();
+}
+
+function checkAnswer(){
+ if(answers[index] === null || checkedStatus[index]) return;
+ checkedStatus[index] = true;
+ showQuestion();
+}
+
+function nextQuestion(){
+ if(finished) return;
+
+ if(index === questions.length - 1){
+  finishTest(false);
+ } else {
+  index++;
+  showQuestion();
+ }
+}
+
+function calculateScore(){
+ let score = 0;
+ answers.forEach((a, i)=>{
+  if(a === null || !checkedStatus[i]) return;
+  score += a === questions[i][2] ? 4 : -1;
+ });
+ return score;
+}
+
+function finishTest(timeUp){
+ if(finished) return;
+ finished = true;
+ clearInterval(clock);
+
+ document.getElementById("exam").classList.add("hidden");
+ document.getElementById("result").classList.remove("hidden");
+
+ let correct = 0, wrong = 0, unanswered = 0;
+ let mistakeBox = document.getElementById("mistakes");
+ let correctBox = document.getElementById("correctList");
+ mistakeBox.innerHTML = "";
+ correctBox.innerHTML = "";
+
+ let totalQ = questions.length;
+
+ questions.forEach((q, i)=>{
+  let a = answers[i];
+  let right = q[2];
+
+  if(a === null || !checkedStatus[i]){
+   unanswered++;
+   return;
+  }
+
+  if(a === right){
+   correct++;
+   let div = document.createElement("div");
+   div.className = "result-item";
+   div.innerHTML = "<b>Q" + (i + 1) + ".</b> " + q[0] +
+   '<br><span class="correct-text">Your answer: ' +
+   String.fromCharCode(65 + a) + ": " + q[1][a] + " ✓</span>";
+   correctBox.appendChild(div);
+  } else {
+   wrong++;
+   let div = document.createElement("div");
+   div.className = "result-item";
+   div.innerHTML = "<b>Q" + (i + 1) + ".</b> " + q[0] +
+   '<br><span class="wrong-text">Your answer: ' +
+   String.fromCharCode(65 + a) + ": " + q[1][a] + "</span>" +
+   '<br><span class="correct-text">Correct answer: ' +
+   String.fromCharCode(65 + right) + ": " + q[1][right] + "</span>";
+   mistakeBox.appendChild(div);
+  }
+ });
+
+ let score = correct * 4 - wrong;
+ let maxScore = totalQ * 4;
+ let accuracy = Math.round(correct / totalQ * 100);
+
+ document.getElementById("marks").textContent = score + "/" + maxScore;
+ document.getElementById("percentage").textContent = "Accuracy: " + accuracy + "%";
+ document.getElementById("summary").innerHTML =
+ "✅ Correct: " + correct +
+ "<br>❌ Wrong: " + wrong +
+ "<br>⭕ Unchecked: " + unanswered +
+ "<br>⏱️ " + (timeUp ? "Time finished" : "Test submitted") +
+ "<br><br>" + (accuracy >= 80 ? "Excellent performance! 🏆" :
+ accuracy >= 50 ? "Good work! Keep practising!" :
+ "Keep practising and improve your score!");
+
+ if(wrong === 0){
+  mistakeBox.textContent = "No incorrect answers!";
+ }
+ if(correct === 0){
+  correctBox.textContent = "No correct answers.";
+ }
+}
+
+window.addEventListener("beforeunload", function(e){
+ if(!finished && !document.getElementById("exam").classList.contains("hidden")){
+  e.preventDefault();
+  e.returnValue = "";
+ }
+});
+</script>
+</body>
+</html>
